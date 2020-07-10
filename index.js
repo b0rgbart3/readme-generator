@@ -76,56 +76,23 @@ const questions = [
   inquirer
   .prompt(questions).then(answers => {
 
+//console.log(answers);
+
+// console.log("--------------------");
+// console.log("There were "+questions.length+" questions.");
+
+    let readMeFileString = `# ${answers.title}\n`;
+    readMeFileString += `${answers.description}\n\n`;
 
     let realAnswers = questions.filter( question => answers[question.name] !="");
-    console.log(realAnswers);
-//     let title = `
-// # ${answers.title}
-// ${answers.description}`;
 
-// let install = `
-// ## Installation
-// ${answers.installation}
-// `;
+    realAnswers.splice(0,2);
 
-// let usage = `
-// ## Usage
-// ${answers.usage}
-// `;
+    realAnswers.forEach( question => {
+       readMeFileString += "## " + question.name + "\n" + answers[question.name] + "\n\n";
 
-// let credits = `
-// ## Credits
-// ${answers.credits}
-// `;
-
-// let license = `
-// ## License
-// ${answers.license}
-// `;
-
-// let badges = `
-// ## Badges
-// ${answers.badges}
-// `;
-
-// let contributing = `
-// ## Contributing
-// ${answers.contributing}
-// `;
-
-// let tests=`
-// ## Tests
-// ${answers.tests}
-// `;
-
-
-// let readmeFile = answers.title;
-// if (answers.usage) {
-//     readmeFile+= answers.usage;
-// }
-// if (answers.usage) {
-//     readmeFile+= answers.usage;
-// }
+    })
+    console.log(readMeFileString);
 
 
     // fs.writeFile("output.md", readmeFile, function(err) {
