@@ -17,6 +17,16 @@ const questions = [
         default: 'This is the project description.',
     },
     {
+        name: 'image',
+        message: 'url of Screengrab or other image:',
+        default: '',
+    },
+    {
+      name: 'imageDescription',
+      message: 'description of your image:',
+      default: '',
+    },
+    {
         name: 'Installation',
         message: 'Instructions for Installation:',
         default: 'Instructions',
@@ -133,6 +143,7 @@ const questions = [
     let profileName = "";
     let profilePic = "";
     let profileEmail = "";
+    let imagePath = "";
 
     // Loop through the rest of the answers and add to the output string accordingly.
     realAnswers.forEach( question => {
@@ -161,6 +172,19 @@ const questions = [
             readMeFileString += "<a href='"+answers[question.name]+"'>"+answers[question.name]+"</a>\n";
               break;
 
+          case "image":
+             //readMeFileString += "<img src='" + answers[question.name] + "' />"
+             imagePath = answers[question.name];
+            
+             break;
+
+          case "imageDescription":
+            // ![alt text](http://url/to/img.png)
+            if (imagePath) { 
+              readMeFileString += "![" + answers[question.name]+ "](" + imagePath + ")\n";
+            }
+            break;
+
           case "badgeSubject":
             // take the spaces out of the inputted string
             let badgeSubject = answers[question.name].split(" ").join("_");
@@ -181,7 +205,7 @@ const questions = [
 
           case "githubProfileName":
             profileName = answers[question.name];
-            readMeFileString += "\n" + profileName + "\n";
+            readMeFileString += "\n**on github:** <a href='github.com/" + profileName + "'>"+profileName+"</a>\n";
             break;
           
           case "includePic":
