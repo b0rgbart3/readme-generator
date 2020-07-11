@@ -3,6 +3,8 @@ const axios = require("axios");
 const inquirer = require("inquirer");
 const util = require("util");
 
+//const asyncAxios = util.promisify(axios.get);
+
 const questions = [
     {
       name: 'title',
@@ -75,20 +77,23 @@ const questions = [
     {
         name: 'githubProfileName',
         message: 'What is your github profile name?',
-        default: '',
+        default: 'b0rgBart3',
     },
     {
-        type: 'boolean',
         name: 'includePic',
         message: 'Do you want to include your github profile pic?',
-        default: '',
+        default: 'y',
     },
     {
-        type: 'boolean',
-        name: 'includeGithubEmail',
-        message: 'Do you want to include your github email?',
-        default: '',
-    }
+      name: 'githubEmail',
+      message: 'What is your github email address?',
+      default: 'borgBart3@gmail.com',
+  },
+    // {
+    //     name: 'includeGithubEmail',
+    //     message: 'Do you want to include your github email?',
+    //     default: 'y',
+    // }
   ];
 
 // let profilepic = [![](https://github.com/remarkablemark.png?size=50)](https://github.com/remarkablemark)
@@ -126,6 +131,7 @@ const questions = [
     let genericBadge = "";
     let profileName = "";
     let profilePic = "";
+    let profileEmail = "";
 
     // Loop through the rest of the answers and add to the output string accordingly.
     realAnswers.forEach( question => {
@@ -134,16 +140,17 @@ const questions = [
         switch (question.name) {
 
           case "license": 
-            readMeFileString +="## License\n";
-           // console.log(answers[question.name]);
-          break;
+            readMeFileString +="## License\n" + answers[question.name] + "\n";
+
+         //   console.log("License: " + answers[question.name]);
+            break;
 
           case "badgeSubject":
             // take the spaces out of the inputted string
             let badgeSubject = answers[question.name].split(" ").join();
 
             // create the first half of the badge
-            genericBadge = `[![Generic badge](https://img.shields.io/badge/${badgeSubject}`;
+            genericBadge = `## Badges\n [![Generic badge](https://img.shields.io/badge/${badgeSubject}`;
             
             break;
 
@@ -152,13 +159,13 @@ const questions = [
             let badgeStatus = answers[question.name].split(" ").join();
 
             // create the 2nd half of the badge
-            genericBadge += `## Badges\n -${badgeStatus}-<COLOR>.svg)](https://shields.io/)`;
+            genericBadge += `-${badgeStatus}-<COLOR>.svg)](https://shields.io/)`;
             readMeFileString += genericBadge + "\n";
             break;
 
           case "githubProfileName":
             profileName = answers[question.name];
-            readMeFileString += profileName;
+            readMeFileString += "\n" + profileName + "\n";
             break;
           
           case "includePic":
@@ -172,18 +179,48 @@ const questions = [
             }
             
             if (includePic) {
-              let profilepicString  = `[![](https://github.com/${profileName}.png?size=50)](https://github.com/remarkablemark)`;
-              readMeFileString += profilepicString;
+              let profilepicString  = `[![](https://github.com/${profileName}.png?size=90)](https://github.com/remarkablemark)`;
+              readMeFileString += profilepicString + "\n";
             }
             
             break;
 
-          case "includeEmail":
-            githubAPIURL = `https://api.github.com/users/${profileName}/events/public`;
-
-
-            
+            case "githubEmail": 
+              profileEmail = answers[question.name];
+              readMeFileString += "Email: " + profileEmail + "\n";
             break;
+
+          // case "includeGithubEmail":
+          //   profileEmail = answers[question.name];
+          //   let includeEmail = false;
+          //   if (profileEmail.length > 0) {
+          //     if (profileEmail[0] === "y")
+          //     {
+          //       includeEmail = true;
+          //     }
+          //   }
+
+          //   if (includeEmail) {
+          //     // Send a get request to the github API to get the email address
+          //     // that is associated with this github account
+
+          //    // queryUrl = `https://api.github.com/users/${profileName}/events/public`;
+          //     queryUrl = `https://api.github.com/users/${profileName}`;
+          //     axios.get(queryUrl).then(function(res) {
+
+             
+        
+          //       // parse the returned object to get the email address by itself
+          //       console.log("Got: " +  {res}  );
+          //     }, (error) => {
+          //       console.log("There was an error getting your email address from the github API.");
+          //     });
+          //   }
+            //let emailObject = getEmailObject();
+           // console.log(emailObject);
+
+
+           // break;
 
 
           // For all other cases, we can simply include an h2 and the answer
@@ -211,3 +248,13 @@ const questions = [
 
   });
 
+  // async function getEmailObject() {
+  //   githubAPIURL = `https://api.github.com/users/${profileName}/events/public`;
+  //   try {
+  //     email = await asyncAxios(githubAPIURL);
+  //     console.log("tried to get email: " + email);
+  //     return email;
+  //   } catch(err) {
+  //     console.log(err);
+  //   }
+  // }
