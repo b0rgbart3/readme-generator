@@ -1,7 +1,7 @@
 # Project Title
 This is the project description.
 
-![test](screengrab1.jpg)
+![test](demo2.gif)
 ## Installation
 Instructions
 
