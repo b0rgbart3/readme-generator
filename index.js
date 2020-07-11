@@ -102,7 +102,7 @@ const questions = [
   let licenses = [
     'MIT','GPL 3','GPL', 'Creative Commons','Unlicensed / Public Domain'
   ]
-  let badges = [
+  let licenseBadges = [
 "[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)",
 "[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)",
 "[![GPL license](https://img.shields.io/badge/License-GPL-blue.svg)](http://perso.crans.org/besson/LICENSE.html)",
@@ -128,6 +128,7 @@ const questions = [
     // we don't actually need the first two -- title and description, because those are already included (above)
     realAnswers.splice(0,2);
 
+    let license = "";
     let genericBadge = "";
     let profileName = "";
     let profilePic = "";
@@ -135,19 +136,34 @@ const questions = [
 
     // Loop through the rest of the answers and add to the output string accordingly.
     realAnswers.forEach( question => {
-
+      console.log(question.name);
+      console.log(answers[question.name]);
         // depending on the question, we need to handle the output differently
         switch (question.name) {
+         
 
           case "license": 
-            readMeFileString +="## License\n" + answers[question.name] + "\n";
+           
+            license = answers[question.name];
+            console.log("looking at license: " + license);
+            let licenseIndex = licenses.indexOf(license);
+            console.log(licenseIndex);
+            if ((licenseIndex != -1) && (licenseIndex < 4) ){
+              readMeFileString +="## License\n";
+              readMeFileString += licenseBadges[licenseIndex] + "\n";
+            }
 
          //   console.log("License: " + answers[question.name]);
             break;
 
+          case "liveDemo":
+            readMeFileString += "## Live Demo\n";
+            readMeFileString += "<a href='"+answers[question.name]+"'>"+answers[question.name]+"</a>\n";
+              break;
+
           case "badgeSubject":
             // take the spaces out of the inputted string
-            let badgeSubject = answers[question.name].split(" ").join();
+            let badgeSubject = answers[question.name].split(" ").join("_");
 
             // create the first half of the badge
             genericBadge = `## Badges\n [![Generic badge](https://img.shields.io/badge/${badgeSubject}`;
@@ -156,7 +172,7 @@ const questions = [
 
           case "badgeStatus":
             // take the spaces out of the inputted string
-            let badgeStatus = answers[question.name].split(" ").join();
+            let badgeStatus = answers[question.name].split(" ").join("_");
 
             // create the 2nd half of the badge
             genericBadge += `-${badgeStatus}-<COLOR>.svg)](https://shields.io/)`;
