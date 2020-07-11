@@ -1,15 +1,18 @@
-# Project Title
-This is the project description.
+# readme generator
+A command-line application that dynamically generates a goodREADME.md file from a user's input. Note: this readme file was created using this app.
 
-![test](demo2.gif)
+![DEMO](demo2.gif)
 ## Installation
-Instructions
-
+```sh
+node index.js
+```
 ## Usage
-Usage
+Run this file in your project folder to create the README file.
 
 ## License
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![CC-0 license](https://img.shields.io/badge/License-CC--0-blue.svg)](https://creativecommons.org/licenses/by-nd/4.0)
+## Badges
+ [![Generic badge](https://img.shields.io/badge/Made_With-Node.js-<COLOR>.svg)](https://shields.io/)
 
 **on github:** <a href='github.com/b0rgBart3'>b0rgBart3</a>
 [![](https://github.com/b0rgBart3.png?size=90)](https://github.com/remarkablemark)

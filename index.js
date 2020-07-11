@@ -185,6 +185,13 @@ const questions = [
             }
             break;
 
+          case "Installation":
+
+            readMeFileString += "## Installation\n";
+            readMeFileString += "```sh\n" + answers[question.name] + "\n```\n";
+
+            break;
+
           case "badgeSubject":
             // take the spaces out of the inputted string
             let badgeSubject = answers[question.name].split(" ").join("_");
