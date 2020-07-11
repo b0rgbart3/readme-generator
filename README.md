@@ -1,11 +1,11 @@
 # readme-generator
 
-Create a command-line application that dynamically generates a README.md from a user's input. The application will be invoked with the following command:
+A command-line application that dynamically generates a goodREADME.md file from a user's input. The application will be invoked with the following command:
 
 ```sh
 node index.js
 ```
-The README will be populated with the following:
+The goodREADME.md file will be populated with the following:
 
 * At least one badge
 * Project title

@@ -123,7 +123,9 @@ const questions = [
     // we don't actually need the first two -- title and description, because those are already included (above)
     realAnswers.splice(0,2);
 
-    let generic_badge = "";
+    let genericBadge = "";
+    let profileName = "";
+    let profilePic = "";
 
     // Loop through the rest of the answers and add to the output string accordingly.
     realAnswers.forEach( question => {
@@ -141,7 +143,7 @@ const questions = [
             let badgeSubject = answers[question.name].split(" ").join();
 
             // create the first half of the badge
-            generic_badge = `[![Generic badge](https://img.shields.io/badge/${badgeSubject}`;
+            genericBadge = `[![Generic badge](https://img.shields.io/badge/${badgeSubject}`;
             
             break;
 
@@ -150,18 +152,39 @@ const questions = [
             let badgeStatus = answers[question.name].split(" ").join();
 
             // create the 2nd half of the badge
-            generic_badge += `-${badgeStatus}-<COLOR>.svg)](https://shields.io/)`;
-            readMeFileString += generic_badge;
+            genericBadge += `## Badges\n -${badgeStatus}-<COLOR>.svg)](https://shields.io/)`;
+            readMeFileString += genericBadge + "\n";
             break;
 
           case "githubProfileName":
             profileName = answers[question.name];
+            readMeFileString += profileName;
             break;
           
           case "includePic":
             profilePic = answers[question.name];
-            console.log("Include profile pic:" + profilePic);
+            let includePic = false;
+            if (profilePic.length > 0) {
+              if (profilePic[0] === "y")
+              {
+                includePic = true;
+              }
+            }
+            
+            if (includePic) {
+              let profilepicString  = `[![](https://github.com/${profileName}.png?size=50)](https://github.com/remarkablemark)`;
+              readMeFileString += profilepicString;
+            }
+            
             break;
+
+          case "includeEmail":
+            githubAPIURL = `https://api.github.com/users/${profileName}/events/public`;
+
+
+            
+            break;
+
 
           // For all other cases, we can simply include an h2 and the answer
           default: 
