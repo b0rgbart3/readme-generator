@@ -235,7 +235,7 @@ const questions = [
 
             case "User Story":
               sectionCount++;
-              readMeFileStringPart2 += `<a name="User Story"></a>\n## User Story\n`;
+              readMeFileStringPart2 += `<a name="User_Story"></a>\n## User Story\n`;
               readMeFileStringPart2 += "```sh\n" + answers[question.name] + "\n```\n";
               tableOfContents += `${sectionCount}. [${question.name}](#${question.name.split(" ").join("_")})\n`;
               break;
@@ -303,7 +303,7 @@ const questions = [
           // For all other cases, we can simply include an h2 and the answer
           default: 
             sectionCount++;
-            readMeFileStringPart2 += `<a name="${question.name}"></a>\n## ` + question.name + "\n" + answers[question.name] + "\n";
+            readMeFileStringPart2 += `<a name="${question.name.split(" ").join("_")}"></a>\n## ` + question.name + "\n" + answers[question.name] + "\n";
             tableOfContents += `${sectionCount}. [${question.name}](#${question.name.split(" ").join("_")})\n`;
           break;
 
