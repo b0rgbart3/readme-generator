@@ -29,7 +29,7 @@ const questions = [
     {
         name: 'Installation',
         message: 'Instructions for Installation:',
-        default: 'Instructions',
+        default: '',
     },
     {
         name: 'Usage',
@@ -37,14 +37,14 @@ const questions = [
         default: 'Usage',
     },
     {
-        name: 'liveDemo',
+        name: 'Live Demo',
         message: "What is the url of the live demo?",
         default: ""
     },
     {
     type: 'list',
       message: 'Select license',
-      name: 'license',
+      name: 'License',
       choices: [
         new inquirer.Separator(' License '),
         {
@@ -75,7 +75,7 @@ const questions = [
         default: '',
     },
     {
-      name: 'badgeSubject',
+      name: 'Badges',
       message: "What would you like the subject of your badge to be?",
       default: "",
     },
@@ -129,8 +129,9 @@ const questions = [
 
     // Start the output with the title and description (these are not optional)
 
-    let readMeFileString = `# ${answers.title}\n`;
-    readMeFileString += `${answers.description}\n\n`;
+    let readMeFileStringPart1 = `# ${answers.title}\n`;
+    readMeFileStringPart1 += `${answers.description}\n\n`;
+    let readMeFileStringPart2 = "";
 
     // realAnswers is a filtered version of the answers -- that only includes answers that aren't blank
     let realAnswers = questions.filter( question => answers[question.name] !="");
@@ -144,32 +145,38 @@ const questions = [
     let profilePic = "";
     let profileEmail = "";
     let imagePath = "";
+    let tableOfContents = "# Table of contents\n";
+    let sectionCount = 0;
 
     // Loop through the rest of the answers and add to the output string accordingly.
     realAnswers.forEach( question => {
       console.log(question.name);
       console.log(answers[question.name]);
+      
         // depending on the question, we need to handle the output differently
         switch (question.name) {
          
 
-          case "license": 
-           
+          case "License": 
+            sectionCount++;
             license = answers[question.name];
             console.log("looking at license: " + license);
             let licenseIndex = licenses.indexOf(license);
             console.log(licenseIndex);
             if ((licenseIndex != -1) && (licenseIndex < 4) ){
-              readMeFileString +="## License\n";
-              readMeFileString += licenseBadges[licenseIndex] + "\n";
+              readMeFileStringPart2 +="<a name='License'></a>\n## License\n";
+              readMeFileStringPart2 += licenseBadges[licenseIndex] + "\n";
+              tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
             }
 
          //   console.log("License: " + answers[question.name]);
             break;
 
           case "liveDemo":
-            readMeFileString += "## Live Demo\n";
-            readMeFileString += "<a href='"+answers[question.name]+"'>"+answers[question.name]+"</a>\n";
+            sectionCount++;
+            readMeFileStringPart2 += "<a name='liveDemo'></a>\n## Live Demo\n";
+            readMeFileStringPart2 += "<a href='"+answers[question.name]+"'>"+answers[question.name]+"</a>\n";
+            tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
               break;
 
           case "image":
@@ -181,24 +188,25 @@ const questions = [
           case "imageDescription":
             // ![alt text](http://url/to/img.png)
             if (imagePath) { 
-              readMeFileString += "![" + answers[question.name]+ "](" + imagePath + ")\n";
+              readMeFileStringPart1 += "![" + answers[question.name]+ "](" + imagePath + ")\n";
             }
             break;
 
           case "Installation":
-
-            readMeFileString += "## Installation\n";
-            readMeFileString += "```sh\n" + answers[question.name] + "\n```\n";
-
+            sectionCount++;
+            readMeFileStringPart2 += "<a name='Installation'></a>\n## Installation\n";
+            readMeFileStringPart2 += "```sh\n" + answers[question.name] + "\n```\n";
+            tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
             break;
 
-          case "badgeSubject":
+          case "Badges":
+            sectionCount++;
             // take the spaces out of the inputted string
             let badgeSubject = answers[question.name].split(" ").join("_");
 
             // create the first half of the badge
-            genericBadge = `## Badges\n [![Generic badge](https://img.shields.io/badge/${badgeSubject}`;
-            
+            genericBadge = `<a name='Badges'></a>\n## Badges\n [![Generic badge](https://img.shields.io/badge/${badgeSubject}`;
+            tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
             break;
 
           case "badgeStatus":
@@ -207,12 +215,12 @@ const questions = [
 
             // create the 2nd half of the badge
             genericBadge += `-${badgeStatus}-<COLOR>.svg)](https://shields.io/)`;
-            readMeFileString += genericBadge + "\n";
+            readMeFileStringPart2 += genericBadge + "\n";
             break;
 
           case "githubProfileName":
             profileName = answers[question.name];
-            readMeFileString += "\n**on github:** <a href='github.com/" + profileName + "'>"+profileName+"</a>\n";
+            readMeFileStringPart2 += "\n**on github:** <a href='github.com/" + profileName + "'>"+profileName+"</a>\n";
             break;
           
           case "includePic":
@@ -227,14 +235,14 @@ const questions = [
             
             if (includePic) {
               let profilepicString  = `[![](https://github.com/${profileName}.png?size=90)](https://github.com/remarkablemark)`;
-              readMeFileString += profilepicString + "\n";
+              readMeFileStringPart2 += profilepicString + "\n";
             }
             
             break;
 
             case "githubEmail": 
               profileEmail = answers[question.name];
-              readMeFileString += "Email: " + profileEmail + "\n";
+              readMeFileStringPart2 += "Email: " + profileEmail + "\n";
             break;
 
           // case "includeGithubEmail":
@@ -272,7 +280,9 @@ const questions = [
 
           // For all other cases, we can simply include an h2 and the answer
           default: 
-            readMeFileString += "## " + question.name + "\n" + answers[question.name] + "\n\n";
+            sectionCount++;
+            readMeFileStringPart2 += `<a name='${question.name}'></a>\n## ` + question.name + "\n" + answers[question.name] + "\n";
+            tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
           break;
 
         }
@@ -283,7 +293,7 @@ const questions = [
     //console.log(readMeFileString);
 
 
-    fs.writeFile("goodREADME.md", readMeFileString, function(err) {
+    fs.writeFile("goodREADME.md", readMeFileStringPart1 + tableOfContents + readMeFileStringPart2, function(err) {
 
         if (err) {
           return console.log(err);

@@ -5,6 +5,7 @@ A command-line application that dynamically generates a goodREADME.md file from 
 ```sh
 node index.js
 ```
+
 The goodREADME.md file will be populated with the following:
 
 * At least one badge
