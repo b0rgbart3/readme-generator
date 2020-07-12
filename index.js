@@ -256,7 +256,7 @@ const questions = [
             }
             
             if (includePic) {
-              let profilepicString  = `[![](https://github.com/${profileName}.png?size=90)](https://github.com/remarkablemark)`;
+              let profilepicString  = `\n[![](https://github.com/${profileName}.png?size=90)](https://github.com/remarkablemark)`;
               readMeFileStringPart2 += profilepicString + "\n";
             }
             
