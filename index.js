@@ -99,6 +99,16 @@ const questions = [
       message: 'What is your github email address?',
       default: 'borgBart3@gmail.com',
   },
+    {
+      name: 'User Story',
+      message: 'User Story:',
+      default: '',
+  },
+  {
+    name: 'Business Context',
+    message: 'Business Context:',
+    default: '',
+  },
     // {
     //     name: 'includeGithubEmail',
     //     message: 'Do you want to include your github email?',
@@ -223,6 +233,13 @@ const questions = [
             readMeFileStringPart2 += genericBadge + "\n";
             break;
 
+            case "User Story":
+              sectionCount++;
+              readMeFileStringPart2 += `<a name="User Story"></a>\n## User Story\n`;
+              readMeFileStringPart2 += "```sh\n" + answers[question.name] + "\n```\n";
+              tableOfContents += `${sectionCount}. [${question.name}](#${question.name.split(" ").join("_")})\n`;
+              break;
+
           case "githubProfileName":
             profileName = answers[question.name];
             readMeFileStringPart2 += "\n**on github:** <a href='github.com/" + profileName + "'>"+profileName+"</a>\n";
@@ -287,7 +304,7 @@ const questions = [
           default: 
             sectionCount++;
             readMeFileStringPart2 += `<a name="${question.name}"></a>\n## ` + question.name + "\n" + answers[question.name] + "\n";
-            tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
+            tableOfContents += `${sectionCount}. [${question.name}](#${question.name.split(" ").join("_")})\n`;
           break;
 
         }
