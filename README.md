@@ -1,7 +1,7 @@
 # readme-generator
 A command-line application that dynamically generates a good README file from a user's input. This README file was built using this application.
 
-![DEMO](demo.gif)
+![DEMO](demo_slower.gif)
 # Table of contents
 1. [Usage](#Usage)
 2. [License](#License)
