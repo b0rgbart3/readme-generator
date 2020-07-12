@@ -198,7 +198,12 @@ const questions = [
             readMeFileStringPart2 += "```sh\n" + answers[question.name] + "\n```\n";
             tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
             break;
-
+          case "Usage":
+            sectionCount++;
+            readMeFileStringPart2 += `<a name="Usage"></a>\n## Usage\n`;
+            readMeFileStringPart2 += "```sh\n" + answers[question.name] + "\n```\n";
+            tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
+            break;
           case "Badges":
             sectionCount++;
             // take the spaces out of the inputted string
@@ -242,7 +247,7 @@ const questions = [
 
             case "githubEmail": 
               profileEmail = answers[question.name];
-              readMeFileStringPart2 += "Email: " + profileEmail + "\n";
+              readMeFileStringPart2 += "\nEmail: " + profileEmail + "\n";
             break;
 
           // case "includeGithubEmail":
