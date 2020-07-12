@@ -41,6 +41,10 @@ const questions = [
         message: "What is the url of the live demo?",
         default: ""
     },
+    // {
+    //   name: 'Contributing',
+    //   message: 'Contributing members (comma separated): ',
+    // },
     {
     type: 'list',
       message: 'Select license',
@@ -54,15 +58,30 @@ const questions = [
           name: 'GPL 3',
         },
         {
-            name: 'GPL',
-          },
+          name: 'GPL',
+        },
         {
           name: 'Creative Commons',
         },
         {
-            name: 'Unlicensed / Public Domain',
+          name: 'Unlicensed / Public Domain',
         }
         ]   
+    },
+    {
+      name: 'Features',
+      message: 'Features (please enter comma separated):',
+      default: '',
+    },
+    {
+      name: 'Technology',
+      mesage: 'Technology (please enter comma separated):',
+      default: '',
+    },
+    { 
+      name: 'Credits',
+      message: 'Credits (comma separated): ',
+      default: '',
     },
     {
         name: 'Contributing',
@@ -74,6 +93,7 @@ const questions = [
         message: 'Tests:',
         default: '',
     },
+
     {
       name: 'Badges',
       message: "What would you like the subject of your badge to be?",
@@ -214,6 +234,30 @@ const questions = [
             readMeFileStringPart2 += "```sh\n" + answers[question.name] + "\n```\n";
             tableOfContents += `${sectionCount}. [${question.name}](#${question.name})\n`;
             break;
+          case "Technology":
+            sectionCount++;
+            readMeFileStringPart2 += `<a name="Technology"></a>\n## Technology\n`;
+            tableOfContents += `${sectionCount}. [Technology](#Technology)\n`;
+
+            if (answers[question.name]) {
+              let techs = answers[question.name].split(",");
+              techs.forEach( function(technology, index) {
+                readMeFileStringPart2 += `${index+1}.` + ` ${technology}\n`;
+              });
+            }
+            break;
+          case "Features":
+              sectionCount++;
+              readMeFileStringPart2 += `<a name="Features"></a>\n## Features\n`;
+              tableOfContents += `${sectionCount}. [Features](#Features)\n`;
+  
+              if (answers[question.name]) {
+                let feats = answers[question.name].split(",");
+                feats.forEach( function(feature, index) {
+                  readMeFileStringPart2 += `${index+1}.` + ` ${feature}\n`;
+                });
+              }
+              break;
           case "Badges":
             sectionCount++;
             // take the spaces out of the inputted string
@@ -267,38 +311,6 @@ const questions = [
               readMeFileStringPart2 += "\nEmail: " + profileEmail + "\n";
             break;
 
-          // case "includeGithubEmail":
-          //   profileEmail = answers[question.name];
-          //   let includeEmail = false;
-          //   if (profileEmail.length > 0) {
-          //     if (profileEmail[0] === "y")
-          //     {
-          //       includeEmail = true;
-          //     }
-          //   }
-
-          //   if (includeEmail) {
-          //     // Send a get request to the github API to get the email address
-          //     // that is associated with this github account
-
-          //    // queryUrl = `https://api.github.com/users/${profileName}/events/public`;
-          //     queryUrl = `https://api.github.com/users/${profileName}`;
-          //     axios.get(queryUrl).then(function(res) {
-
-             
-        
-          //       // parse the returned object to get the email address by itself
-          //       console.log("Got: " +  {res}  );
-          //     }, (error) => {
-          //       console.log("There was an error getting your email address from the github API.");
-          //     });
-          //   }
-            //let emailObject = getEmailObject();
-           // console.log(emailObject);
-
-
-           // break;
-
 
           // For all other cases, we can simply include an h2 and the answer
           default: 
@@ -311,9 +323,6 @@ const questions = [
   
     })
    
-   
-    //console.log(readMeFileString);
-
 
     fs.writeFile("goodREADME.md", readMeFileStringPart1 + tableOfContents + readMeFileStringPart2, function(err) {
 
@@ -326,14 +335,3 @@ const questions = [
 
 
   });
-
-  // async function getEmailObject() {
-  //   githubAPIURL = `https://api.github.com/users/${profileName}/events/public`;
-  //   try {
-  //     email = await asyncAxios(githubAPIURL);
-  //     console.log("tried to get email: " + email);
-  //     return email;
-  //   } catch(err) {
-  //     console.log(err);
-  //   }
-  // }
