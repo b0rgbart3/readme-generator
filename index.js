@@ -1,10 +1,14 @@
+// Include the FS library so we can output a file
 const fs = require("fs");
-const axios = require("axios");
+//const axios = require("axios");
+
+// Include the npm package Inquirer so we can use it to prompt the user on the command line
 const inquirer = require("inquirer");
-const util = require("util");
+//const util = require("util");
 
 //const asyncAxios = util.promisify(axios.get);
 
+// This is the list of questions that we will send to Inquirer to ask the user
 const questions = [
     {
       name: 'title',
@@ -139,9 +143,12 @@ const questions = [
 // let profilepic = [![](https://github.com/remarkablemark.png?size=50)](https://github.com/remarkablemark)
 
 
+// This is just a sampling of various common licenses -- not an exhaustive list
   let licenses = [
     'MIT','GPL 3','GPL', 'Creative Commons','Unlicensed / Public Domain'
   ]
+
+  // these strings will generate badges for each of our chosen licenses
   let licenseBadges = [
 "[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)",
 "[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)",
@@ -169,6 +176,7 @@ const questions = [
     // we don't actually need the first two -- title and description, because those are already included (above)
     realAnswers.splice(0,2);
 
+    // empty strings so we can build our output
     let license = "";
     let genericBadge = "";
     let profileName = "";
@@ -180,8 +188,8 @@ const questions = [
 
     // Loop through the rest of the answers and add to the output string accordingly.
     realAnswers.forEach( question => {
-      console.log(question.name);
-      console.log(answers[question.name]);
+    //  console.log(question.name);
+     // console.log(answers[question.name]);
       
         // depending on the question, we need to handle the output differently
         switch (question.name) {
@@ -190,9 +198,9 @@ const questions = [
           case "License": 
             sectionCount++;
             license = answers[question.name];
-            console.log("looking at license: " + license);
+          //  console.log("looking at license: " + license);
             let licenseIndex = licenses.indexOf(license);
-            console.log(licenseIndex);
+           // console.log(licenseIndex);
             if ((licenseIndex != -1) && (licenseIndex < 4) ){
               readMeFileStringPart2 +="<a name='License'></a>\n## License\n";
               readMeFileStringPart2 += licenseBadges[licenseIndex] + "\n";
@@ -323,6 +331,7 @@ const questions = [
   
     })
    
+    // write out the concatenation of 3 strings to the final output file.
 
     fs.writeFile("goodREADME.md", readMeFileStringPart1 + tableOfContents + readMeFileStringPart2, function(err) {
 
