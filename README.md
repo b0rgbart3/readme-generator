@@ -26,6 +26,7 @@ node index.js
 2.  table of contents
 3.  all basic readme info
 4.  github profile image and email
+5.  badges
 <a name="Technology"></a>
 ## Technology
 1. Node.js
@@ -48,7 +49,9 @@ Email: borgBart3@gmail.com
 <a name="User_Story"></a>
 ## User Story
 ```sh
-AS A developer I WANT a REAME generator SO THAT I can easily put together a good README for a new project
+AS A developer I WANT a REAME generator 
+SO THAT I can easily put together a good 
+README for a new project
 ```
 <a name="Business_Context"></a>
 ## Business Context
